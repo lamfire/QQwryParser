@@ -1,6 +1,8 @@
 package com.lamfire.qqwryparser;
 
 import com.lamfire.logger.Logger;
+import com.lamfire.simplecache.Cache;
+import com.lamfire.simplecache.Caches;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +10,6 @@ import java.io.RandomAccessFile;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.MappedByteBuffer;
-import java.util.Hashtable;
 
 public class QQwryParser {
 	static final Logger LOGGER = Logger.getLogger(QQwryParser.class);
@@ -18,7 +19,7 @@ public class QQwryParser {
 	private static final byte AREA_FOLLOWED = 0x01;
 	private static final byte NO_AREA = 0x2;
 	// 用来做为cache，查询一个ip时首先查看cache，以减少不必要的重复查找
-	private Hashtable<String, Element> cache = new Hashtable<String, Element>();
+	private Cache cache;
 	// 随机文件访问类
 	private RandomAccessFile qqwryFile;
 	// 内存映射文件
@@ -34,7 +35,6 @@ public class QQwryParser {
 	public QQwryParser(File file) throws IOException {
 		qqwryFile = new RandomAccessFile(file, "r");
 		// 如果打开文件成功，读取文件头信息
-
 		try {
 			ipBegin = readLong4(0);
 			ipEnd = readLong4(4);
@@ -50,12 +50,15 @@ public class QQwryParser {
 			throw e;
 		}
 
+        cache = Caches.makeLruCache(1000000,3600000);
+
 	}
 
     public void close(){
         try {
             qqwryFile.close();
             qqwryFile = null;
+            cache.clear();
         } catch (IOException e) {
 
         }
@@ -72,12 +75,13 @@ public class QQwryParser {
 			return null;
 		}
 
-		if (cache.containsKey(ip)) {
-			return (Element) cache.get(ip);
+        Element element = (Element)cache.get(ip);
+		if (element != null) {
+			return element;
 		}
 
-		Element element = getElement(InetAddressCodingUtils.encode(ip));
-        cache.put(ip, element);
+		element = getElement(InetAddressCodingUtils.encode(ip));
+        cache.set(ip, element);
 		return element;
 	}
 
