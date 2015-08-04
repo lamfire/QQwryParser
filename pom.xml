@@ -12,18 +12,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>sharesdk-Release</id>
-            <url>http://192.168.9.40:8081/nexus/content/repositories/sharesdk-Release/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>com.lamfire</groupId>
             <artifactId>lamfire</artifactId>
-            <version>2.2.7</version>
+            <version>2.3.6</version>
         </dependency>
     </dependencies>
 </project>

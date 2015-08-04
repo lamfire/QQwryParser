@@ -37,28 +37,28 @@ public class QQwryUtils {
         }
 	}
 	
-	public static Element getElement(String ip){
+	public static AddrInfo getAddrInfo(String ip){
 		QQwryParser parser =  getQQwryParser();
 		if(parser != null){
-			return parser.getElement(ip);
+			return parser.getAddrInfo(ip);
 		}
 		return null;
 	}
 	
 	public static String getProviderName(String ip){
-		return getElement(ip).getProviderName();
+		return getAddrInfo(ip).getProviderName();
 	}
 
     public static String getCountry(String ip){
-        return getElement(ip).getCountry();
+        return getAddrInfo(ip).getCountry();
     }
 
     public static String getProvince(String ip){
-        return getElement(ip).getProvince();
+        return getAddrInfo(ip).getProvince();
     }
 
     public static String getCity(String ip){
-        return getElement(ip).getCity();
+        return getAddrInfo(ip).getCity();
     }
 
 

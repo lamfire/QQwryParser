@@ -69,20 +69,20 @@ public class QQwryParser {
 		return mbb.getInt() & 0x00FFFFFF;
 	}
 
-	public Element getElement(String ip) {
+	public AddrInfo getAddrInfo(String ip) {
 		// 检查ip地址文件是否正常
 		if (qqwryFile == null) {
 			return null;
 		}
 
-        Element element = (Element)cache.get(ip);
-		if (element != null) {
-			return element;
+        AddrInfo addrInfo = (AddrInfo)cache.get(ip);
+		if (addrInfo != null) {
+			return addrInfo;
 		}
 
-		element = getElement(InetAddressCodingUtils.encode(ip));
-        cache.set(ip, element);
-		return element;
+		addrInfo = getElement(InetAddressCodingUtils.encode(ip));
+        cache.set(ip, addrInfo);
+		return addrInfo;
 	}
 
 
@@ -93,13 +93,13 @@ public class QQwryParser {
 	 *            要查询的IP
 	 * @return IPLocation结构
 	 */
-	private Element getElement(byte[] ipAddr) {
-		Element info = null;
+	private AddrInfo getElement(byte[] ipAddr) {
+		AddrInfo info = null;
 		long offset = findOffset(ipAddr);
 		if (offset != -1)
 			info = readElement(offset);
 		if (info == null) {
-			info = new Element();
+			info = new AddrInfo();
 			info.setProviderName("未知");
 		}
         try {
@@ -302,7 +302,7 @@ public class QQwryParser {
 		return begin + records * IP_RECORD_LENGTH;
 	}
 
-    private void setAreaInfo(Element e,String areaInfo){
+    private void setAreaInfo(AddrInfo e,String areaInfo){
         e.setCountry(AreaUtils.getCountry(areaInfo));
         String province = AreaUtils.getProvince(areaInfo);
         e.setProvince(province==null?"未知":province);
@@ -316,9 +316,9 @@ public class QQwryParser {
 	 * @param offset
 	 * @return
 	 */
-	private Element readElement(long offset) {
+	private AddrInfo readElement(long offset) {
 		try {
-            Element element = new Element();
+            AddrInfo addrInfo = new AddrInfo();
             String areaInfo ="";
 			// 跳过4字节ip
 			qqwryFile.seek(offset + 4);
@@ -338,16 +338,16 @@ public class QQwryParser {
                     areaInfo = (readString(countryOffset));
                 }
 				// 读取地区标志
-                element.setProviderName(readArea(qqwryFile.getFilePointer()));
+                addrInfo.setProviderName(readArea(qqwryFile.getFilePointer()));
 			} else if (b == NO_AREA) {
                 areaInfo = (readString(readLong3()));
-                element.setProviderName(readArea(offset + 8));
+                addrInfo.setProviderName(readArea(offset + 8));
 			} else {
                 areaInfo = (readString(qqwryFile.getFilePointer() - 1));
-                element.setProviderName(readArea(qqwryFile.getFilePointer()));
+                addrInfo.setProviderName(readArea(qqwryFile.getFilePointer()));
 			}
-            setAreaInfo(element,areaInfo);
-			return element;
+            setAreaInfo(addrInfo,areaInfo);
+			return addrInfo;
 		} catch (IOException e) {
 			return null;
 		}

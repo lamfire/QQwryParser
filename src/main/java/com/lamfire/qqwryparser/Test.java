@@ -9,8 +9,8 @@ public class Test {
 	}
 	
 	public static void main(String[] args)throws Exception {
-		System.out.println(QQwryUtils.getElement("127.0.0.1"));
-        System.out.println(QQwryUtils.getElement(randomIp()));
-        System.out.println(QQwryUtils.getElement("121.46.120.85"));
+		System.out.println(QQwryUtils.getAddrInfo("104.41.42.230"));
+        System.out.println(QQwryUtils.getAddrInfo(randomIp()));
+        System.out.println(QQwryUtils.getAddrInfo("121.46.120.85"));
 	}
 }
