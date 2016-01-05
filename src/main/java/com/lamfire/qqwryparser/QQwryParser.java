@@ -100,7 +100,7 @@ public class QQwryParser {
 			info = readElement(offset);
 		if (info == null) {
 			info = new AddrInfo();
-			info.setProviderName("未知");
+			info.setProvider("未知");
 		}
         try {
             info.setAddress(InetAddress.getByAddress(ipAddr));
@@ -338,13 +338,13 @@ public class QQwryParser {
                     areaInfo = (readString(countryOffset));
                 }
 				// 读取地区标志
-                addrInfo.setProviderName(readArea(qqwryFile.getFilePointer()));
+                addrInfo.setProvider(readArea(qqwryFile.getFilePointer()));
 			} else if (b == NO_AREA) {
                 areaInfo = (readString(readLong3()));
-                addrInfo.setProviderName(readArea(offset + 8));
+                addrInfo.setProvider(readArea(offset + 8));
 			} else {
                 areaInfo = (readString(qqwryFile.getFilePointer() - 1));
-                addrInfo.setProviderName(readArea(qqwryFile.getFilePointer()));
+                addrInfo.setProvider(readArea(qqwryFile.getFilePointer()));
 			}
             setAreaInfo(addrInfo,areaInfo);
 			return addrInfo;

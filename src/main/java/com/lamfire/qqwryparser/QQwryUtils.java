@@ -45,8 +45,8 @@ public class QQwryUtils {
 		return null;
 	}
 	
-	public static String getProviderName(String ip){
-		return getAddrInfo(ip).getProviderName();
+	public static String getProvider(String ip){
+		return getAddrInfo(ip).getProvider();
 	}
 
     public static String getCountry(String ip){
