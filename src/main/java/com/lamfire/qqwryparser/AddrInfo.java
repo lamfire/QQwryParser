@@ -5,7 +5,7 @@ import java.net.InetAddress;
 
 public class AddrInfo {
 	private InetAddress address;
-	private String providerName;
+	private String provider;
     private String country;
     private String  province;
     private String city;
@@ -14,14 +14,13 @@ public class AddrInfo {
 
 	}
 
+    public String getProvider() {
+        return provider;
+    }
 
-	public String getProviderName() {
-		return providerName;
-	}
-
-	public void setProviderName(String providerName) {
-		this.providerName = providerName;
-	}
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
 
     public InetAddress getAddress() {
         return address;
@@ -56,6 +55,6 @@ public class AddrInfo {
     }
 
     public String toString(){
-		return address +"(" +getCountry()+","+getProvince()+","+getCity() +")/" + providerName;
+		return address +"(" +getCountry()+","+getProvince()+","+getCity() +")/" + provider;
 	}
 }
