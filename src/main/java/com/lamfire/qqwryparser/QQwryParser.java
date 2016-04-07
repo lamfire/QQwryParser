@@ -5,6 +5,7 @@ import com.lamfire.simplecache.Cache;
 import com.lamfire.simplecache.Caches;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.InetAddress;
@@ -32,7 +33,10 @@ public class QQwryParser {
 	private byte[] b4 = new byte[4];
 	private byte[] b3 = new byte[3];
 
-	public QQwryParser(File file) throws IOException {
+	public QQwryParser(File file) throws Exception {
+		if(!file.exists()){
+			throw new FileNotFoundException(file.getAbsolutePath());
+		}
 		qqwryFile = new RandomAccessFile(file, "r");
 		// 如果打开文件成功，读取文件头信息
 		try {
