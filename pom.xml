@@ -6,7 +6,7 @@
 
     <groupId>com.lamfire</groupId>
     <artifactId>QQwryParser</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -63,4 +63,11 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>lamfire</id>
+            <name>lamfire-respository</name>
+            <url>http://m2.lamfire.com:8081/nexus/content/repositories/lamfire/</url>
+        </repository>
+    </distributionManagement>
 </project>
